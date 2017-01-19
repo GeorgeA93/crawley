@@ -11,13 +11,20 @@ export default class Scraper {
     }
 
     scrape(html) {
-        const $cheerio = cheerio.load(html);
-        const assets = getAssets($cheerio);
-        const pageLinks = getPageLinks($cheerio);
-        return {
-            assets: assets,
-            pageLinks: pageLinks
+        const result = {
+            assets: {
+                stylesheets: [],
+                images: [],
+                scripts: []
+            },
+            pageLinks: []
         };
+        if (html) {
+            const $cheerio = cheerio.load(html);
+            result.assets = getAssets($cheerio);
+            result.pageLinks = getPageLinks($cheerio);
+        }
+        return result;
     }
 
 }
