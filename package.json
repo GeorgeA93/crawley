@@ -18,5 +18,10 @@
     "jasmine": "^2.5.3",
     "nodemon": "^1.11.0",
     "rimraf": "^2.5.4"
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "lodash": "^4.17.4",
+    "request": "^2.79.0"
   }
 }
