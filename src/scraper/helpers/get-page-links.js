@@ -1,6 +1,9 @@
 import { isUndefined } from 'lodash';
 
 export default function getPageLinks($cheerio) {
+    if (!$cheerio) {
+        return [];
+    }
     return getAnchorTags($cheerio).concat(getAlternates($cheerio));
 }
 
