@@ -3,6 +3,10 @@ import { getPageLinks } from '../../../src/scraper/helpers';
 import cheerio from 'cheerio';
 
 describe('Get page links', function () {
+    it('returns an empty array when the html is undefined', function () {
+        const pageLinks = getPageLinks(undefined);
+        expect(pageLinks.length).toBe(0);
+    });
     it('returns an empty array when the html is null', function () {
         const pageLinks = getPageLinks(null);
         expect(pageLinks.length).toBe(0);
@@ -47,7 +51,7 @@ describe('Get page links', function () {
         const link = '/link/to/some/resource';
         const alternateResources = cheerio.load(`
             <html>
-                <link rel="alternate" href="${link}">
+                <link rel="alternate" href="${link}" />
                 <p>HELLO WORLD</p>
                 <div> 
                     <span>There are not anchor tags here...</span>
@@ -65,7 +69,7 @@ describe('Get page links', function () {
         const resource = '/link/to/some/resource';
         const anchorTagsAndResources = cheerio.load(`
             <html>
-              <link rel="alternate" href="${resource}">
+              <link rel="alternate" href="${resource}" />
                 <p>HELLO WORLD</p>
                 <div> 
                     <span>There are some anchor tags here...</span>

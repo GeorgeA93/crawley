@@ -1,11 +1,16 @@
 import { isUndefined } from 'lodash';
 
 export default function getAssets($cheerio) {
-    let assets = {
-        stylesheets: getStylesheets($cheerio),
-        images: getImages($cheerio).concat(getIcons($cheerio)),
-        scripts: getScripts($cheerio),
+    const assets = {
+        stylesheets: [],
+        images: [],
+        scripts: []
     };
+    if ($cheerio) {
+        assets.stylesheets = getStylesheets($cheerio);
+        assets.images = getIcons($cheerio).concat(getImages($cheerio));
+        assets.scripts = getScripts($cheerio);
+    }
     return assets;
 }
 
