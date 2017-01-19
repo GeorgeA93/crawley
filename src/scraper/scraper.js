@@ -1,6 +1,6 @@
 import {
     getAssets,
-    getPageLinks
+    getPageLinks,
 } from './helpers';
 
 import cheerio from 'cheerio';
