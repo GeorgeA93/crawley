@@ -1,6 +1,9 @@
 import Crawler from './crawler';
 
-const startUrl = 'https://gocardless.com';
+const crawlerOptions = {
+    startUrl: 'https://gocardless.com/',
+    maxDepth: 10,
+};
 
-const crawler = new Crawler(startUrl);
+const crawler = new Crawler(crawlerOptions);
 crawler.start();

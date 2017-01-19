@@ -9,12 +9,13 @@ import request from 'request';
 
 export default class Crawler {
 
-    constructor(startUrl) {
+    constructor({startUrl = 'https://gocardless.com', maxDepth = 10} = {}) {
         this.domain = getDomain(startUrl);
         if (!this.domain) {
             throw new Error(`Invalid start url: ${startUrl}. Could not extract the domain`);
         }
         this.startUrl = startUrl;
+        this.maxDepth = maxDepth;
         this.scraper = new Scraper();
         this.requestItems = new Map();
     }
@@ -39,7 +40,7 @@ export default class Crawler {
         if (!this._canProcessRequestItem(requestItem)) {
             return;
         } else {
-            console.log(`Processing: ${requestItem.host} with depth: ${requestItem.depth}`);
+            console.log(`Processing: ${requestItem.url} with depth: ${requestItem.depth}`);
         }
 
         this.requestItems.set(requestItem.url, requestItem);
@@ -59,7 +60,7 @@ export default class Crawler {
         return requestItem &&
             requestItem.host === this.domain &&
             !this.requestItems.has(requestItem.url) &&
-            requestItem.depth < 10;
+            requestItem.depth <= this.maxDepth;
     }
 
     _acceptResponse(response) {
