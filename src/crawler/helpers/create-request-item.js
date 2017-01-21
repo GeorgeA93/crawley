@@ -19,7 +19,7 @@ export default function createRequestItem(url, parent) {
             url: newUrl.href(),
             depth: parent.depth + 1,
             parent: parent,
-            fetched: false,
+            retries: 0
         };
     } catch (error) {
         return null;

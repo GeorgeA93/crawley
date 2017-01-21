@@ -2,5 +2,10 @@
     "verbose": true,
     "execMap": {
         "js": " babel-node"
-    }
+    },
+    "ignore": [
+        ".git",
+        "node_modules/**/node_modules",
+        "results"
+    ]
 }
