@@ -5,8 +5,11 @@ const contentTypeHeader = 'content-type';
 const htmlType = 'text/html';
 
 export default function isHtml(response) {
-    const {type} = parseContentType(response);
-    return type === htmlType;
+    const result = parseContentType(response);
+    if (!result) {
+        return false;
+    }
+    return result.type === htmlType;
 }
 
 function parseContentType(response) {
@@ -17,5 +20,7 @@ function parseContentType(response) {
 }
 
 function hasHeaders(response) {
-    return response && response.headers;
+    return response &&
+        response.headers &&
+        response.headers[contentTypeHeader];
 }
