@@ -48,6 +48,17 @@ export default class Crawler extends EventEmitter {
     start() {
         this._requestProcessor.addToQueue(this._startUrl) // queue the first request
         this._crawl(); // start the crawling loop
+        this.emit('started');
+    }
+
+    stop() {
+        setTimeout(() => {
+            if (!this._runIntervalRef) {
+                throw new Error('Cannot stop crawling as start was not called');
+            }
+            clearInterval(this._runIntervalRef); // clear the interval to stop the loop
+            this.emit('finished', this._results, this._errors); // emit our results and errors
+        }, this._requestInterval);
     }
 
     _crawl() {
@@ -55,8 +66,7 @@ export default class Crawler extends EventEmitter {
             this._runIntervalRef = setInterval(() => { // run the following at every requestInterval
                 this._requestProcessor.process(this._onRequestResult.bind(this), this._onRequestError.bind(this)); // process the current request
                 if (this._isFinished()) { // if we are finished
-                    clearInterval(this._runIntervalRef); // clear the interval to stop the loop
-                    this.emit('finished', this._results, this._errors);
+                    this.stop();
                 }
             }, this._requestInterval);
         });
@@ -79,7 +89,6 @@ export default class Crawler extends EventEmitter {
             retries: requestItem.retries,
             reason: error
         };
-        // this.emit('error', requestItem);
     }
 
     _isFinished() {

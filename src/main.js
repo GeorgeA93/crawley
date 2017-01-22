@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const crawlerOptions = {
     startUrl: 'https://gocardless.com/',
-    maxDepth: 3,
+    maxDepth: 2,
     maxConcurrentRequests: 4,
     maxRetryCount: 2,
 };
