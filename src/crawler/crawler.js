@@ -9,13 +9,13 @@ import EventEmitter from 'events';
 export default class Crawler extends EventEmitter {
 
     constructor({
-        startUrl = 'https://gocardless.com',
-        maxDepth = 1,
-        maxConcurrentRequests = 1000,
-        requestInterval = 10,
+        startUrl = 'http://www.example.com',
+        maxDepth = 0,
+        maxConcurrentRequests = 4,
+        requestInterval = 250,
         sameDomain = true,
-        sameProtocol = false,
-        requestTimeout = 3000,
+        sameProtocol = true,
+        requestTimeout = 10000,
         maxRetryCount = 1,
     } = {}) {
         super();

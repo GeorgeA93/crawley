@@ -6,8 +6,6 @@ const crawlerOptions = {
     maxDepth: 3,
     maxConcurrentRequests: 4,
     maxRetryCount: 2,
-    requestTimeout: 1000,
-    requestInterval: 250
 };
 
 const crawler = new Crawler(crawlerOptions);

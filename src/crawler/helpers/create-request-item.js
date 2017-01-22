@@ -15,10 +15,7 @@ export default function createRequestItem(url, parent) {
         }
         return {
             host: newUrl.hostname(),
-            path: newUrl.resource(),
-            port: newUrl.port(),
             protocol: newUrl.protocol() || "http",
-            uriPath: newUrl.path(),
             url: newUrl.href(),
             depth: parent.depth + 1,
             parent: parent,
