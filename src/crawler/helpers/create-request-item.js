@@ -4,12 +4,15 @@ import uri from 'urijs';
 import { isString } from 'lodash';
 
 export default function createRequestItem(url, parent) {
-    if (!isValidUrl(url) || !isValidParent(parent)) {
+    if (!isValidParent(parent)) {
         return null;
     }
 
     try {
         let newUrl = uri(url).absoluteTo(parent.url).normalize();
+        if (!isValidUrl(newUrl.href())) {
+            return null;
+        }
         return {
             host: newUrl.hostname(),
             path: newUrl.resource(),

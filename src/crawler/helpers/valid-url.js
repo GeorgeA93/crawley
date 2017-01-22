@@ -1,7 +1,12 @@
 import { isString } from 'lodash';
 
+import urlRegex from 'url-regex';
+
 export default function isValidUrl(url) {
-    return url &&
-        isString(url) &&
-        url.length > 0;
+    if (!url) {
+        return false;
+    }
+    return isString(url) &&
+        url.length > 0 &&
+        urlRegex().test(url);
 }
