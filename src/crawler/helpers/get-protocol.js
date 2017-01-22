@@ -7,7 +7,11 @@ export default function getProtocol(url) {
         return null;
     }
     try {
-        return uri(url).normalize().protocol();
+        const protocol = uri(url).normalize().protocol();
+        if (!protocol || protocol === '') {
+            return null;
+        }
+        return protocol;
     } catch (error) {
         return null;
     }

@@ -2,8 +2,8 @@ import Crawler from './crawler';
 import fs from 'fs';
 
 const crawlerOptions = {
-    startUrl: 'https://www.gocardless.com/',
-    maxDepth: 2,
+    startUrl: 'https://gocardless.com/',
+    maxDepth: 3,
     maxConcurrentRequests: 4,
     maxRetryCount: 2,
     requestTimeout: 1000,
