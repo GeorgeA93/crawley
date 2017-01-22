@@ -1,19 +1,24 @@
 const internal = Symbol('internal');
+const urls = Symbol('urls');
 
 export default class RequestQueue {
 
     constructor() {
         this[internal] = [];
+        this[urls] = new Set();
     }
 
     enqueue(requestItem) {
         if (this.canAdd(requestItem)) {
+            this[urls].add(requestItem.url);
             this[internal].push(requestItem);
         }
     }
 
     dequeue() {
-        return this[internal].shift();
+        const requestItem = this[internal].shift();
+        this[urls].delete(requestItem.url);
+        return requestItem;
     }
 
     peek() {
@@ -24,16 +29,11 @@ export default class RequestQueue {
         if (!requestItem) {
             return false;
         }
-        for (let i = 0; i < this.size; i++) {
-            if (requestItem.url === this[internal][i].url) {
-                return true;
-            }
-        }
-        return false;
+        return this[urls].has(requestItem.url);
     }
 
     canAdd(requestItem) {
-        return requestItem;
+        return requestItem && !this.contains(requestItem);
     }
 
     clear() {

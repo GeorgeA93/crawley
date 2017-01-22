@@ -29,8 +29,7 @@ export default class RequestProcessor {
         this._requestTimeout = requestTimeout;
         this._requestQueue = new RequestQueue();
         this._currentRequests = new Map();
-        this._processedUrls = new Map();
-        this._processedCount = 0;
+        this._seenUrls = new Set();
         this._maxRetryCount = maxRetryCount;
     }
 
@@ -48,15 +47,13 @@ export default class RequestProcessor {
         // perform the request
         request.get(requestItem.url, { timeout: this._requestTimeout }, (error, response, body) => {
             this._currentRequests.delete(requestItem.url); // remove the request from our proccessing list regardless of the result
-            this._processedUrls.set(requestItem.url, true); // add the url to our processed list, 
             if (error) {
                 if (!this._retry(requestItem)) {
                     onError(requestItem, error);
                 }
             }
             if (!error && this._acceptResponse(response)) {
-                this._processedCount++;
-                console.log(`Processed: ${this._processedUrls.size}. Current requests: ${this._currentRequests.size}`);
+                console.log(`Discovered: ${this._seenUrls.size} unique URLS. Currently processing: ${this._currentRequests.size} requests. There are ${this._requestQueue.size} requests left in the queue`);
                 onResponse(requestItem, body);
             }
 
@@ -64,8 +61,8 @@ export default class RequestProcessor {
     }
 
     _retry(requestItem) {
-        requestItem.retries += 1;
         if (this._canRetry(requestItem)) {
+            requestItem.retries += 1;
             this._requestQueue.enqueue(requestItem);
             return true;
         }
@@ -85,6 +82,7 @@ export default class RequestProcessor {
         }
         const requestItem = createRequestItem(url, parent);
         if (this._canQueue(requestItem)) {
+            this._seenUrls.add(requestItem.url);
             this._requestQueue.enqueue(requestItem); // queue the requestItem
         }
     }
@@ -98,7 +96,7 @@ export default class RequestProcessor {
         if (!requestItem) {
             return false;
         }
-        if (this._processedUrls.has(requestItem.url)) { // only queue urls that we haven't already processed
+        if (this._seenUrls.has(requestItem.url)) { // only queue urls that we haven't already seen it
             return false;
         }
         if (this._maxDepth > 0 && requestItem.depth > this._maxDepth) { // if max depth is 0, we aren't limiting the depth

@@ -38,3 +38,4 @@ dist
 .tmp
 .idea
 .vscode
+results/**/*.json
