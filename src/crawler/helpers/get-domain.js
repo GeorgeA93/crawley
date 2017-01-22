@@ -7,7 +7,11 @@ export default function getDomain(url) {
         return null;
     }
     try {
-        return uri(url).normalize().host();
+        const domain = uri(url).normalize().host();
+        if (!domain || domain === '') {
+            return null;
+        }
+        return domain;
     } catch (error) {
         return null;
     }
