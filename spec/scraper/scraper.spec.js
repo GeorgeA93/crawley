@@ -1,16 +1,17 @@
 import Scraper from '../../src/scraper';
 
 describe('Scraper', function () {
+    let scraper = null;
+    beforeEach(function () {
+        scraper = new Scraper();
+    })
     it('creates an instance', function () {
-        const scraper = new Scraper();
         expect(scraper).toBeTruthy();
     });
     it('has a function called scrape', function () {
-        const scraper = new Scraper();
         expect(scraper.scrape).toBeTruthy();
     });
     it('can scrape undefined', function () {
-        const scraper = new Scraper();
         const {assets, pageLinks} = scraper.scrape();
         expect(assets.images.length).toBe(0);
         expect(assets.stylesheets.length).toBe(0);
@@ -18,7 +19,6 @@ describe('Scraper', function () {
         expect(pageLinks.length).toBe(0);
     });
     it('can scrape null', function () {
-        const scraper = new Scraper();
         const {assets, pageLinks} = scraper.scrape(null);
         expect(assets.images.length).toBe(0);
         expect(assets.stylesheets.length).toBe(0);
@@ -26,7 +26,6 @@ describe('Scraper', function () {
         expect(pageLinks.length).toBe(0);
     });
     it('can scrape assets and pageLinks', function () {
-        const scraper = new Scraper();
         const stylesheetOne = '/path/to/styles.css';
         const stylesheetTwo = '/path/to/bootstrap.css';
         const stylesheetThree = '/path/to/bundle.css';

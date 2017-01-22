@@ -38,6 +38,7 @@ export default class RequestQueue {
 
     clear() {
         this[internal] = [];
+        this[urls] = new Set();
     }
 
     get size() {
