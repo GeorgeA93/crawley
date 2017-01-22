@@ -5,6 +5,13 @@
   "main": "dist/index.js",
   "author": "George Allen <george.allen93@outlook.com> (http://grgaln.com/)",
   "license": "ISC",
+  "keywords": [
+    "crawler",
+    "crawling",
+    "scraping",
+    "scraper",
+    "web"
+  ],
   "bugs": {
     "url": "https://github.com/GeorgeA93/crawley/issues"
   },
