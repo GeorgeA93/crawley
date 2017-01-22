@@ -1,4 +1,4 @@
-import Crawler from './crawler';
+import Crawler from '../dist';
 import fs from 'fs';
 
 const crawlerOptions = {

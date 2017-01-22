@@ -2,14 +2,16 @@
   "name": "crawley",
   "version": "1.0.0",
   "description": "A simple web crawler",
-  "main": "index.js",
+  "main": "dist/index.js",
   "author": "George Allen",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/main.js",
-    "prebuild": "rimraf dist",
+    "prestart": "npm run build",
+    "start": "babel-node examples/gocardless.js",
+    "predev": "npm run build",
+    "dev": "nodemon examples/gocardless.js",
+    "prebuild": "npm run test && rimraf dist",
     "build": "babel src -d dist",
-    "serve": "NODE_ENV=production node dist/index.js",
     "test": "babel-node ./spec/run.js"
   },
   "devDependencies": {
