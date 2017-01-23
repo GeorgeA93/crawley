@@ -30,6 +30,10 @@ Crawley will crawl a website and return to you a list of all the discovered page
 
 Running `yarn start` will first run the tests, then build the distrubition and finally run the example found in `examples/gocardless.js`
 
+The `gocardless.js` example crawls https://gocardless.com/ with a max-depth of 0. This means it will only stop when it cannot find any more URL's to crawl and scrape.
+
+When the example has finished running, the results are written to the console and saved in a file called `results/results-gocardless.json`. You can also view any errors that occurred in the `results/errors-gocardless.json` file. After saving the results and the errors, it also checks for any duplicate URL's. These can be found in `results/dupes-gocardless.json`. This file should be empty! (the crawler ignores URL's that it has seen before)
+
 To change the example that is running, open the `package.json` and change the following line:
 ```
 "start": "babel-node examples/gocardless.js",
