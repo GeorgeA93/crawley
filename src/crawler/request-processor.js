@@ -50,13 +50,11 @@ export default class RequestProcessor {
     }
 
     /**
-     * Returns the number of remaining requests which is the size of our request queue
-     * 
-     * @readonly
+     * @returns{number} the number of remaining requests which is the size of our request queue
      * 
      * @memberOf RequestProcessor
      */
-    get reaminingRequests() {
+    reaminingRequests() {
         return this._requestQueue.size;
     }
 

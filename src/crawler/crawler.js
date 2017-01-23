@@ -156,7 +156,7 @@ export default class Crawler extends EventEmitter {
      * @memberOf Crawler
      */
     _isFinished() {
-        return this._requestProcessor.reaminingRequests === 0 &&
+        return this._requestProcessor.reaminingRequests() === 0 &&
             !this._requestProcessor._isProcessing();
     }
 
