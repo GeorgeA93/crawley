@@ -57,6 +57,14 @@ The crawler constructor takes an object containing many options. These options a
 | maxResultSize         	| The maximum number of results too accept.                       	| 200000                 	|
 | maxQueueSize          	| The maximum number of items that can be in the queue            	| 200000                 	|
 
+## Crawler Events
+
+| Event    	| Example                                                       	| Description                                                                	|
+|----------	|---------------------------------------------------------------	|----------------------------------------------------------------------------	|
+| started  	| `crawler.on('started', () => {});`                            	| Emitted when the crawler has started                                       	|
+| finished 	| `crawler.on('finished', (results, errors) => {});`            	| Emitted when the crawler has finished, or reached the maximum results size. Results is an array containing all of the succesfully crawled and scraped pages. Errors is an object containing all of the failed urls. 	|
+| page     	| `crawler.on('page', (requestItem, pageLinks, assets) => {});` 	| Emitted when the crawler has successfully crawled a page. The requestItem is an object containing information about the page that was crawled, pageLinks is an array of all the urls found on the page and assets is an object containing all of the assets found on the page.                  	|
+
 ## Other scripts
 
 #### Testing
