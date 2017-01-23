@@ -40,6 +40,23 @@ to:
 ```
 where `<NAME-OF-THE-EXAMPLE>` is the name of the example you want to run without the `'<'` and `'>'` characters.
 
+## Crawler Options
+
+The crawler constructor takes an object containing many options. These options are explained below.
+
+| Option                	| Description                                                     	| Default Value          	|
+|-----------------------	|-----------------------------------------------------------------	|------------------------	|
+| startUrl              	| The url to start the crawl from                                 	| http://www.example.com 	|
+| maxDepth              	| The maximum depth of the crawl. If 0, the depth isn't limited   	| 0                      	|
+| maxConcurrentRequests 	| The maximum number of HTTP to process at once                   	| 4                      	|
+| requestInterval       	| The interval between each iteration of the crawl loop.          	| 250                    	|
+| sameDomain            	| If true, crawling has to be on the same domain as the start url 	| true                   	|
+| sameProtocol          	| If true, crawling has use the same protocol as the start url    	| true                   	|
+| requestTimeout        	| The maximum amount of time to wait for a request                	| 10000                  	|
+| maxRetryCount         	| The number of times a request can be retried                    	| 1                      	|
+| maxResultSize         	| The maximum number of results too accept.                       	| 200000                 	|
+| maxQueueSize          	| The maximum number of items that can be in the queue            	| 200000                 	|
+
 ## Other scripts
 
 #### Testing
