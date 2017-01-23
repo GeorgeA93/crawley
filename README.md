@@ -51,7 +51,7 @@ The crawler constructor takes an object containing many options. These options a
 | maxConcurrentRequests 	| The maximum number of HTTP to process at once                   	| 4                      	|
 | requestInterval       	| The interval between each iteration of the crawl loop.          	| 250                    	|
 | sameDomain            	| If true, crawling has to be on the same domain as the start url 	| true                   	|
-| sameProtocol          	| If true, crawling has use the same protocol as the start url    	| true                   	|
+| sameProtocol          	| If true, crawling has to use the same protocol as the start url    	| true                   	|
 | requestTimeout        	| The maximum amount of time to wait for a request                	| 10000                  	|
 | maxRetryCount         	| The number of times a request can be retried                    	| 1                      	|
 | maxResultSize         	| The maximum number of results too accept.                       	| 200000                 	|
