@@ -11,6 +11,7 @@ const crawlerOptions = {
 const crawler = new Crawler(crawlerOptions);
 crawler.start();
 crawler.on('finished', (results, errors) => {
+    console.log(results);
     fs.writeFileSync('results/results.json', JSON.stringify(results, null, 2));
     fs.writeFileSync('results/errors.json', JSON.stringify(errors, null, 2));
     checkForDupes(results);

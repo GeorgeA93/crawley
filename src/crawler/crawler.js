@@ -137,7 +137,7 @@ export default class Crawler extends EventEmitter {
         pageLinks.forEach((pageLink) => { // for every discovered page link, queue another request
             this._requestProcessor.addToQueue(pageLink, { url: requestItem.url, depth: requestItem.depth });
         });
-        this.emit('page', requestItem);
+        this.emit('page', requestItem, pageLinks, assets);
     }
 
     /**
