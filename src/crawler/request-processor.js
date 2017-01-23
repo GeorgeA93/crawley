@@ -22,6 +22,7 @@ export default class RequestProcessor {
      *         protocol: The protocol we want to stay on
      *         maxDepth: The maxium depth of the crawl, if 0, the depth isnt limited
      *         maxRetryCount: The number of times a request can be retried
+     *         maxQueueSize: The maxium number of items that can be in the queue
      *     }={}]
      * 
      * @memberOf RequestProcessor
@@ -35,6 +36,7 @@ export default class RequestProcessor {
         protocol = 'http',
         maxDepth = 0,
         maxRetryCount = 1,
+        maxQueueSize = 200000
     } = {}) {
         this._domain = domain;
         this._protocol = protocol;
@@ -43,7 +45,7 @@ export default class RequestProcessor {
         this._maxConcurrentRequests = maxConcurrentRequests;
         this._maxDepth = maxDepth;
         this._requestTimeout = requestTimeout;
-        this._requestQueue = new RequestQueue();
+        this._requestQueue = new RequestQueue(maxQueueSize);
         this._currentRequests = new Map();
         this._seenUrls = new Set();
         this._maxRetryCount = maxRetryCount;

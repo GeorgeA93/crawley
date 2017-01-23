@@ -9,7 +9,7 @@ export default class RequestQueue {
      * 
      * @memberOf RequestQueue
      */
-    constructor() {
+    constructor(maxSize = 200000) {
         /**
          * An internal array for our queue items
          */
@@ -19,6 +19,7 @@ export default class RequestQueue {
          * Used to speed up access time in our contains method
          */
         this[urls] = new Set();
+        this._maxSize = maxSize;
     }
 
     /**
@@ -75,7 +76,7 @@ export default class RequestQueue {
     }
 
     /**
-     * We can only add to the queue if the requestItem isnt null and the item is currently in the queue
+     * We can only add to the queue if the requestItem isnt null, the item isnt currently in the queue and we arent exceeding the maxSize
      * 
      * @param {any} requestItem
      * @returns {boolean} True if we can add, otherwise false
@@ -83,7 +84,9 @@ export default class RequestQueue {
      * @memberOf RequestQueue
      */
     canAdd(requestItem) {
-        return requestItem && !this.contains(requestItem);
+        return requestItem &&
+            this.size + 1 <= this._maxSize &&
+            !this.contains(requestItem);
     }
 
     /**

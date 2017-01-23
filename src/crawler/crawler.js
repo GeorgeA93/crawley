@@ -20,6 +20,8 @@ export default class Crawler extends EventEmitter {
      *         sameProtocol: If true, crawling has to be on the same protocol as the start url
      *         requestTimeout: The maximum amount of time to wait for a request
      *         maxRetryCount: The number of times a request can be retried
+     *         maxResultSize: The maximum number of results too accept
+     *         maxQueueSize: The maximum number of items that can be in the queue
      *     }={}]
      * 
      * @memberOf Crawler
@@ -33,6 +35,8 @@ export default class Crawler extends EventEmitter {
         sameProtocol = true,
         requestTimeout = 10000,
         maxRetryCount = 1,
+        maxResultSize = 200000,
+        maxQueueSize = 200000,
     } = {}) {
         super();
         this._domain = getDomain(startUrl); // grab the domain from the startUrl
@@ -52,7 +56,9 @@ export default class Crawler extends EventEmitter {
             requestTimeout: requestTimeout,
             maxDepth: maxDepth,
             maxRetryCount: maxRetryCount,
+            maxQueueSize: maxQueueSize,
         });
+        this._maxResultSize = maxResultSize;
         this._scraper = new Scraper(); // setup our scraper
         this._startUrl = startUrl;
         this._requestInterval = requestInterval;
@@ -119,6 +125,10 @@ export default class Crawler extends EventEmitter {
      * @memberOf Crawler
      */
     _onRequestResult(requestItem, body) {
+        if (this._results.length + 1 > this._maxResultSize) {
+            this.stop();
+            return;
+        }
         const {pageLinks, assets} = this._scraper.scrape(body); // scrape new links and assets from the body
         this._results.push({ // add it to our results array
             url: requestItem.url,
