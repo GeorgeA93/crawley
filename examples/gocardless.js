@@ -3,8 +3,8 @@ import fs from 'fs';
 
 const crawlerOptions = {
     startUrl: 'https://gocardless.com/',
-    maxDepth: 2,
-    maxConcurrentRequests: 4,
+    maxDepth: 4,
+    maxConcurrentRequests: 2,
     maxRetryCount: 2,
 };
 
@@ -12,8 +12,8 @@ const crawler = new Crawler(crawlerOptions);
 crawler.start();
 crawler.on('finished', (results, errors) => {
     console.log(results);
-    fs.writeFileSync('results/results.json', JSON.stringify(results, null, 2));
-    fs.writeFileSync('results/errors.json', JSON.stringify(errors, null, 2));
+    fs.writeFileSync('results/results-gocardless.json', JSON.stringify(results, null, 2));
+    fs.writeFileSync('results/errors-gocardless.json', JSON.stringify(errors, null, 2));
     checkForDupes(results);
 });
 
@@ -29,6 +29,6 @@ function checkForDupes(results) {
             }
         }
     }
-    fs.writeFileSync('results/dupes.json', JSON.stringify(dupes, null, 2));
+    fs.writeFileSync('results/dupes-gocardless.json', JSON.stringify(dupes, null, 2));
     console.log(`${dupes.length} Duplicates`);
 }
