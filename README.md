@@ -54,6 +54,8 @@ The crawler constructor takes an object containing many options. These options a
 | sameProtocol          	| If true, crawling has use the same protocol as the start url    	| true                   	|
 | requestTimeout        	| The maximum amount of time to wait for a request                	| 10000                  	|
 | maxRetryCount         	| The number of times a request can be retried                    	| 1                      	|
+| maxResultSize         	| The maximum number of results too accept.                       	| 200000                 	|
+| maxQueueSize          	| The maximum number of items that can be in the queue            	| 200000                 	|
 
 ## Other scripts
 
