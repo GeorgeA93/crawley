@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/crawley.svg)](https://badge.fury.io/js/crawley)
 
-Crawley will crawl a website and return to you a list of all the discovered pages, as well the paths to all of the assets on said page. Including javascript, css and images.
+Crawley will crawl a website and return to you a list of all the discovered pages, including the paths to all of the assets on the page. These assets include javascript, css and images.
 
 ## Installation - To use in your own projects
 
@@ -68,6 +68,66 @@ The crawler constructor takes an object containing many options. These options a
 | started  	| `crawler.on('started', () => {});`                            	| Emitted when the crawler has started                                       	|
 | finished 	| `crawler.on('finished', (results, errors) => {});`            	| Emitted when the crawler has finished, or reached the maximum results size. Results is an array containing all of the succesfully crawled and scraped pages. Errors is an object containing all of the failed urls. 	|
 | page     	| `crawler.on('page', (requestItem, pageLinks, assets) => {});` 	| Emitted when the crawler has successfully crawled a page. The requestItem is an object containing information about the page that was crawled, pageLinks is an array of all the urls found on the page and assets is an object containing all of the assets found on the page.                  	|
+
+## Crawler Output 
+
+The crawlers `'finished'` event outputs two objects: results and errors.
+
+#### Results
+
+This is an array containing each url that was crawled and the assets found at that url. An example can be seen below:
+
+```
+[
+  {
+    "url": "https://github.com/",
+    "assets": {
+      "stylesheets": [
+        "https://assets-cdn.github.com/assets/frameworks-c07e6f4b02b556d1d85052fb3853caf84c80e6b23dcdb1ae1b00f051da1115a2.css",
+        "https://assets-cdn.github.com/assets/github-09e1c38d593bf8fc6e4c4f1b526d0184e27c433d64963942c1e8c361589f8125.css",
+        "https://assets-cdn.github.com/assets/site-293f92180d0a619a750fa2b5eae9e36740f5723a59c0ec308972c70d24e834fc.css",
+        "https://assets-cdn.github.com/assets/site-293f92180d0a619a750fa2b5eae9e36740f5723a59c0ec308972c70d24e834fc.css"
+      ],
+      "images": [
+        "https://assets-cdn.github.com/favicon.ico",
+        "https://assets-cdn.github.com/images/modules/site/home-ill-build.png?sn",
+        "https://assets-cdn.github.com/images/modules/site/home-ill-work.png?sn",
+        "https://assets-cdn.github.com/images/modules/site/home-ill-projects.png?sn",
+        "https://assets-cdn.github.com/images/modules/site/home-ill-platform.png?sn",
+        "https://assets-cdn.github.com/images/modules/site/org_example_nasa.png?sn"
+      ],
+      "scripts": [
+        "https://assets-cdn.github.com/assets/compat-8e19569aacd39e737a14c8515582825f3c90d1794c0e5539f9b525b8eb8b5a8e.js",
+        "https://assets-cdn.github.com/assets/frameworks-d23e32e482112ba5e3ea9bd8dc7e555680116a74e002746ac91f41a4e5875a9b.js",
+        "https://assets-cdn.github.com/assets/github-5b30a39e1d9d97a79d4a297aa3ff67bf56fab7480252464db1b6e80dbab10690.js"
+      ]
+    }
+  },
+  ...
+```
+
+#### Errors
+
+This is an object containing the urls that couldnt be crawled. An example can be seen below:
+
+```
+{
+  "https://gocardless.com/better-direct-debit/": {
+    "retries": 0,
+    "reason": {
+      "code": "ESOCKETTIMEDOUT",
+      "connect": false
+    }
+  },
+  "https://gocardless.com/partners/": {
+    "retries": 0,
+    "reason": {
+      "code": "ESOCKETTIMEDOUT",
+      "connect": false
+    }
+  },
+  ...
+```
 
 ## Other scripts
 
