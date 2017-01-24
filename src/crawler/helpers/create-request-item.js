@@ -11,7 +11,7 @@ import { isString } from 'lodash';
  * @param {any} parent This is an object containing a url and a depth. It represents the page where we found the url passed as the first argument
  * @returns The created request item or null if we failed to create one
  */
-export default function createRequestItem(url, parent) {
+export default function createRequestItem(url, parent, robots = null) {
     if (!isValidParent(parent)) { // the parent must be valid
         return null;
     }
@@ -19,6 +19,10 @@ export default function createRequestItem(url, parent) {
     try {
         let newUrl = uri(url).absoluteTo(parent.url).normalize(); // get the path to the url from the parent url
         if (!isValidUrl(newUrl.href())) { // the newUrl must be valid
+            return null;
+        }
+        if (robots && robots.isDisallowed(newUrl.href())) { // if we are respecting the robots.txt and the url isDisallowed
+            console.log(`Skipping ${newUrl.href()} as it is disallowed in the robots.txt`);
             return null;
         }
         return { // the new request item

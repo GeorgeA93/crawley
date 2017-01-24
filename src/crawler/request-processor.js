@@ -23,6 +23,7 @@ export default class RequestProcessor {
      *         maxDepth: The maxium depth of the crawl, if 0, the depth isnt limited
      *         maxRetryCount: The number of times a request can be retried
      *         maxQueueSize: The maxium number of items that can be in the queue
+     *         robots: The robots parser, you must pass this if you want to respect the robots.txt
      *     }={}]
      * 
      * @memberOf RequestProcessor
@@ -36,7 +37,8 @@ export default class RequestProcessor {
         protocol = 'http',
         maxDepth = 0,
         maxRetryCount = 1,
-        maxQueueSize = 200000
+        maxQueueSize = 200000,
+        robots = null,
     } = {}) {
         this._domain = domain;
         this._protocol = protocol;
@@ -49,6 +51,7 @@ export default class RequestProcessor {
         this._currentRequests = new Map();
         this._seenUrls = new Set();
         this._maxRetryCount = maxRetryCount;
+        this._robots = robots;
     }
 
     /**
@@ -56,7 +59,7 @@ export default class RequestProcessor {
      * 
      * @memberOf RequestProcessor
      */
-    reaminingRequests() {
+    remainingRequests() {
         return this._requestQueue.size;
     }
 
@@ -142,7 +145,7 @@ export default class RequestProcessor {
                 depth: 0
             }
         }
-        const requestItem = createRequestItem(url, parent); // create the request item
+        const requestItem = createRequestItem(url, parent, this.robots); // create the request item
         if (this._canQueue(requestItem)) { // if we can queue it
             this._seenUrls.add(requestItem.url); // add to our seen set
             this._requestQueue.enqueue(requestItem); // queue the requestItem

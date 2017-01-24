@@ -1,5 +1,6 @@
 import Scraper from '../scraper';
 import RequestProcessor from './request-processor';
+import Robots from './robots';
 import {
     getDomain,
     getProtocol,
@@ -22,6 +23,7 @@ export default class Crawler extends EventEmitter {
      *         maxRetryCount: The number of times a request can be retried
      *         maxResultSize: The maximum number of results too accept
      *         maxQueueSize: The maximum number of items that can be in the queue
+     *         respectRobots: If true, we attempt to parse the sites robots.txt and respect its rules
      *     }={}]
      * 
      * @memberOf Crawler
@@ -37,6 +39,7 @@ export default class Crawler extends EventEmitter {
         maxRetryCount = 1,
         maxResultSize = 200000,
         maxQueueSize = 200000,
+        respectRobots = true,
     } = {}) {
         super();
         this._domain = getDomain(startUrl); // grab the domain from the startUrl
@@ -47,6 +50,7 @@ export default class Crawler extends EventEmitter {
         if (!this._protocol) {
             throw new Error(`Invalid start url: ${startUrl}. Could not extract the protocol`);
         }
+        this._robots = new Robots();
         this._requestProcessor = new RequestProcessor({ // setup our request processor
             maxConcurrentRequests: maxConcurrentRequests,
             domain: this._domain,
@@ -57,8 +61,10 @@ export default class Crawler extends EventEmitter {
             maxDepth: maxDepth,
             maxRetryCount: maxRetryCount,
             maxQueueSize: maxQueueSize,
+            robots: respectRobots ? this._robots : null
         });
         this._maxResultSize = maxResultSize;
+        this._respectRobots = respectRobots;
         this._scraper = new Scraper(); // setup our scraper
         this._startUrl = startUrl;
         this._requestInterval = requestInterval;
@@ -69,11 +75,36 @@ export default class Crawler extends EventEmitter {
 
     /**
      * Starts the crawling process.
-     * Emits the started event.
      * 
      * @memberOf Crawler
      */
     start() {
+        if (this._respectRobots) {
+            this._robots.setUrl(this._startUrl, (error) => { // Set the robots.txt url
+                if (error) { // if we couldnt get the robots.txt don't respect it
+                    this._respectRobots = false
+                    this._robots = null;
+                } else {
+                    const delay = this._robots.getCrawlDelay(); // get the crawl-delay from the robots.txt
+                    if (this._requestInterval < delay) { // if we are crawling faster than allowed
+                        console.log(`Increasing requestInterval to ${delay} due to robots.txt`);
+                        this._requestInterval = delay; // increase our delay to the one in the robots.txt
+                    }
+                }
+                this._startRunning(); // finally we start
+            });
+        } else {
+            this._startRunning(); // start
+        }
+    }
+
+
+    /**
+     * Emits the started event.
+     * 
+     * @memberOf Crawler
+     */
+    _startRunning() {
         this._requestProcessor.addToQueue(this._startUrl) // queue the first request
         this._crawl(); // start the crawling loop
         this.emit('started');
@@ -166,7 +197,7 @@ export default class Crawler extends EventEmitter {
      * @memberOf Crawler
      */
     _isFinished() {
-        return this._requestProcessor.reaminingRequests() === 0 &&
+        return this._requestProcessor.remainingRequests() === 0 &&
             !this._requestProcessor._isProcessing();
     }
 

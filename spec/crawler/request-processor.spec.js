@@ -34,7 +34,7 @@ describe('Request processor', function () {
         };
         const result = requestProcessor._retry(requestItem);
         expect(result).toBe(true);
-        expect(requestProcessor.reaminingRequests()).toBe(1);
+        expect(requestProcessor.remainingRequests()).toBe(1);
     });
     it('doesnt add a retry to the queue when it exceeds the maxRetryCount', function () {
         const requestProcessor = new RequestProcessor({
@@ -45,7 +45,7 @@ describe('Request processor', function () {
         };
         const result = requestProcessor._retry(requestItem);
         expect(result).toBe(false);
-        expect(requestProcessor.reaminingRequests()).toBe(0);
+        expect(requestProcessor.remainingRequests()).toBe(0);
     });
     it('can process', function () {
         const requestProcessor = new RequestProcessor({

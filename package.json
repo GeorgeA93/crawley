@@ -37,6 +37,7 @@
     "content-type": "^1.0.2",
     "lodash": "^4.17.4",
     "request": "^2.79.0",
+    "robots-parser": "^1.0.1",
     "urijs": "^1.18.4",
     "url-regex": "^4.0.0"
   }

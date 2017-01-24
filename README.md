@@ -60,6 +60,7 @@ The crawler constructor takes an object containing many options. These options a
 | maxRetryCount         	| The number of times a request can be retried                    	| 1                      	|
 | maxResultSize         	| The maximum number of results too accept.                       	| 200000                 	|
 | maxQueueSize          	| The maximum number of items that can be in the queue            	| 200000                 	|
+| respectRobots           | If true, we attempt to parse the sites robots.txt and respect its rules | true                   |
 
 ## Crawler Events
 
