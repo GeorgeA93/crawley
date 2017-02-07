@@ -1,6 +1,6 @@
 # crawley - A simple nodejs web crawler
 
-[![npm version](https://badge.fury.io/js/crawley.svg)](https://badge.fury.io/js/crawley)
+[![NPM](https://nodei.co/npm/crawley.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/crawley/)
 
 Crawley will crawl a website and return to you a list of all the discovered pages, including the paths to all of the assets on the page. These assets include javascript, css and images.
 
