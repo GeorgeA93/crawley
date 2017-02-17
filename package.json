@@ -15,6 +15,10 @@
   "bugs": {
     "url": "https://github.com/GeorgeA93/crawley/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeorgeA93/crawley.git"
+  },
   "scripts": {
     "prestart": "npm run build",
     "start": "babel-node examples/gocardless.js",
