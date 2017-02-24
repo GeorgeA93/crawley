@@ -2,6 +2,8 @@
 
 [![NPM](https://nodei.co/npm/crawley.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/crawley/)
 
+[![Build Status](https://travis-ci.org/GeorgeA93/crawley.svg?branch=master)](https://travis-ci.org/GeorgeA93/crawley)
+
 Crawley will crawl a website and return to you a list of all the discovered pages, including the paths to all of the assets on the page. These assets include javascript, css and images.
 
 ## Installation - To use in your own projects
